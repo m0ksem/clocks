@@ -12,15 +12,16 @@
       </span>
       
       <p>
-        <span class="title">Offset {{ offset / 60 }}h</span> 
+        <span class="title">Offset {{ timeZoneOffset / 60 }}h</span> 
       </p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useInterval } from '../hooks/useInterval'
+import { stringTimeZoneToNumber } from '../utils/stringTimeZoneToNumber'
 
 export default defineComponent({
   props: {
@@ -29,14 +30,23 @@ export default defineComponent({
     },
     offset: {
       type: Number, default: 2 * 60
+    },
+    timezone: {
+      type: Object, required: true
     }
   },
   
   setup(props) {
+    const userOffset = new Date().getTimezoneOffset()
+
+    const timeZoneOffset = computed(() =>
+      stringTimeZoneToNumber(props.timezone.utc) + userOffset
+    )
+
     const getDateWithOffset = () => {
       const now = new Date()
 
-      now.setTime(now.getTime() + props.offset * 1000 * 60)
+      now.setTime(now.getTime() + timeZoneOffset.value * 1000 * 60)
 
       return now
     }
@@ -49,6 +59,8 @@ export default defineComponent({
 
     return {
       currentTime,
+
+      timeZoneOffset
     }
   },
 })

@@ -3,7 +3,7 @@
   <div class="container">
     <va-card>
       <va-card-content>
-        <div class="header d-flex justify--space-between align--center">
+        <div class="header d-flex justify--space-between align--center" style="flex-wrap: wrap;">
           <h1 class="display-1">{{ currentTime }}</h1>
 
           <div>
@@ -14,10 +14,10 @@
 
         <va-divider />
         <div class="row" style="margin: 0 -.5rem;">
-          <div v-for="(timeZone, index) in timeZones" :key="timeZone.name" class="flex lg4 md6 sm12 pa-2">
+          <div v-for="(timeZone, index) in timeZones" :key="timeZone.name" class="flex lg4 md6 sm12 xs12 pa-2">
             <va-card :color="colors[index]" gradient>
               <va-card-content>
-                <TimeZoneCard :name="timeZone.name" :offset="timeZone.offset * 60" />
+                <TimeZoneCard :name="timeZone.name" :offset="timeZone.offset * 60" :timezone="timeZone.timezone" />
               </va-card-content>
             </va-card>                
           </div>
@@ -35,7 +35,7 @@ import { useInterval } from './hooks/useInterval'
 import TimeZoneCard from './components/TimeZoneCard.vue'
 import AddTimeZoneModal from './components/AddTimeZoneModal.vue'
 
-type TimeZone = { name: string, offset: number}
+type TimeZone = { name: string, offset: number, timezone: any }
 
 export default defineComponent({
   components: { TimeZoneCard, AddTimeZoneModal },

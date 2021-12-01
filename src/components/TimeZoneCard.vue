@@ -1,21 +1,33 @@
 <template>
-  <div>
-    <h3 class="display-2">
-      {{ currentTime }}
-    </h3>
+  <va-card :color="color" gradient>
+    <va-hover class="time-zone-card" #default="{ hover }" stateful>
+      <va-card-content>
+        <h3 class="display-2">
+          {{ currentTime }}
+        </h3>
 
-    <va-divider />
+        <va-divider />
 
-    <div class="d-flex align--center justify--space-between">
-      <span>
-        {{ name }}
-      </span>
-      
-      <p>
-        <span class="title">Offset {{ timeZoneOffset / 60 }}h</span> 
-      </p>
-    </div>
-  </div>
+        <div class="d-flex align--center justify--space-between">
+          <span>
+            {{ name }}
+          </span>
+          
+          <p>
+            <span class="title">Offset {{ timeZoneOffset / 60 }}h</span> 
+          </p>
+        </div>
+
+        <va-button 
+          class="time-zone-card__delete-button" 
+          v-show="hover" icon="close" size="small" 
+          color="danger"
+          @click="$emit('delete')"
+        />
+      </va-card-content>
+    </va-hover>
+  </va-card>
+
 </template>
 
 <script lang="ts">
@@ -33,6 +45,9 @@ export default defineComponent({
     },
     timezone: {
       type: Object, required: true
+    },
+    color: {
+      type: String
     }
   },
   
@@ -69,5 +84,14 @@ export default defineComponent({
 <style lang="scss" scoped>
   .title {
     text-align: left;
+  }
+
+  .time-zone-card {
+    position: relative;
+    &__delete-button {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+    }
   }
 </style>

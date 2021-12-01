@@ -15,11 +15,11 @@
         <va-divider />
         <div class="row" style="margin: 0 -.5rem;">
           <div v-for="(timeZone, index) in timeZones" :key="timeZone.name" class="flex lg4 md6 sm12 xs12 pa-2">
-            <va-card :color="colors[index]" gradient>
-              <va-card-content>
-                <TimeZoneCard :name="timeZone.name" :offset="timeZone.offset * 60" :timezone="timeZone.timezone" />
-              </va-card-content>
-            </va-card>                
+            <TimeZoneCard 
+              :name="timeZone.name" :offset="timeZone.offset * 60" 
+              :timezone="timeZone.timezone" :color="colors[index]" 
+              @delete="deleteTimeZone(timeZone)"
+            />            
           </div>
         </div>
       </va-card-content>
@@ -59,6 +59,11 @@ export default defineComponent({
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(timeZones.value))
     }
 
+    const deleteTimeZone = (timeZone: TimeZone) => {
+      timeZones.value = timeZones.value.filter((t) => t !== timeZone)
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(timeZones.value))
+    }
+
     onBeforeMount(() => {
       timeZones.value = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]')
     })
@@ -69,6 +74,7 @@ export default defineComponent({
       doShowAddModal,
       timeZones,
       createTimeZone,
+      deleteTimeZone,
     }
   },
 })

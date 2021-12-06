@@ -6,7 +6,8 @@
         <div class="header d-flex justify--space-between align--center" style="flex-wrap: wrap;">
           <h1 class="display-1">{{ currentTime }}</h1>
 
-          <div>
+          <div class="d-flex align--center">
+            <va-switch v-model="preferences.ampm" true-inner-label="12h" false-inner-label="24h"></va-switch>
             <va-button icon-right="add" @click="doShowAddModal = true">Add</va-button>
             <AddTimeZoneModal v-model="doShowAddModal" @create="createTimeZone"></AddTimeZoneModal>      
           </div>
@@ -18,6 +19,7 @@
             <TimeZoneCard 
               :name="timeZone.name" :offset="timeZone.offset * 60" 
               :timezone="timeZone.timezone" :color="colors[index]" 
+              :ampm="preferences.ampm"
               @delete="deleteTimeZone(timeZone)"
             />            
           </div>
@@ -41,12 +43,24 @@ export default defineComponent({
   components: { TimeZoneCard, AddTimeZoneModal },
 
   setup() {
+    const preferences = ref({
+      ampm: false,
+    })
+
     const colors = ['#4cc9f0', '#ffc6ff', '#06d6a0', '#4ea8de', '#f9c74f', '#bdb2ff', '#ffc6ff']
 
-    const currentTime = ref(new Date().toLocaleTimeString())
+    const  formatDate = (date:Date) => {
+      if (preferences.value.ampm == true) {
+        return date.toLocaleTimeString('en-US')
+      } else {
+        return date.toLocaleTimeString('en-GB')
+      }
+    }
+
+    const currentTime = ref(formatDate(new Date()))
 
     useInterval(() => {
-      currentTime.value = new Date().toLocaleTimeString()
+      currentTime.value = formatDate(new Date())
     }, 1000)
 
 
@@ -69,6 +83,7 @@ export default defineComponent({
     })
 
     return {
+      preferences,
       colors,
       currentTime,
       doShowAddModal,

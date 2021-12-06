@@ -40,14 +40,15 @@ export default defineComponent({
     name: {
       type: String, default: "Kyiv",
     },
-    offset: {
-      type: Number, default: 2 * 60
-    },
     timezone: {
       type: Object, required: true
     },
     color: {
       type: String
+    },
+    ampm: {
+      type: Boolean,
+      default: false,
     }
   },
   
@@ -66,10 +67,18 @@ export default defineComponent({
       return now
     }
 
-    const currentTime = ref(getDateWithOffset().toLocaleTimeString())
+    const  formatDate = (date:Date) => {
+      if (props.ampm == true) {
+        return date.toLocaleTimeString('en-US')
+      } else {
+        return date.toLocaleTimeString('en-GB')
+      }
+    }
+
+    const currentTime = ref(formatDate(getDateWithOffset()))
 
     useInterval(() => {
-      currentTime.value = getDateWithOffset().toLocaleTimeString()
+      currentTime.value = formatDate(getDateWithOffset())
     }, 1000)
 
     return {

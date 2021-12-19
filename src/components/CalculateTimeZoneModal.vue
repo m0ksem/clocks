@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from "vue";
+import { addHoursOffset } from '../utils/addHoursOffset'
 
 export default defineComponent({
   props: {
@@ -19,22 +20,13 @@ export default defineComponent({
 
   setup(props) {
     const urTime = ref(new Date());
-    const getDateWithOffset = () => {
-      const now = new Date();
-      now.setTime(now.getTime() + props.offset * 1000 * 60);
+    const cardTime = ref(addHoursOffset(urTime.value, props.offset));
 
-      return now;
-    };
-    const cardTime = ref(getDateWithOffset());
     watch(urTime, () => {
-      const now = new Date();
-      now.setTime(urTime.value.getTime() + props.offset * 1000 * 60);
-      cardTime.value = now
+      cardTime.value = addHoursOffset(urTime.value, props.offset)
     });
     watch(cardTime, () => {
-      const now = new Date();
-      now.setTime(cardTime.value.getTime() - props.offset * 1000 * 60);
-      urTime.value = now
+      urTime.value = addHoursOffset(cardTime.value, -props.offset)
     });
 
     return {

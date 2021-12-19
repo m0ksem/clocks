@@ -45,6 +45,7 @@
 import { computed, defineComponent, ref } from "vue";
 import { useInterval } from "../hooks/useInterval";
 import { stringTimeZoneToNumber } from "../utils/stringTimeZoneToNumber";
+import { addHoursOffset } from '../utils/addHoursOffset'
 import CalculateTimeZoneModal from "./CalculateTimeZoneModal.vue";
 
 export default defineComponent({
@@ -80,11 +81,7 @@ export default defineComponent({
     );
 
     const getDateWithOffset = () => {
-      const now = new Date();
-
-      now.setTime(now.getTime() + timeZoneOffset.value * 1000 * 60);
-
-      return now;
+      return addHoursOffset(new Date(), timeZoneOffset.value)
     };
 
     const formatDate = (date: Date) => {

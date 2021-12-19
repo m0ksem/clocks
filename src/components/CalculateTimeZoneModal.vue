@@ -1,15 +1,29 @@
 <template>
   <va-modal
     :model-value="modelValue"
+    title="Time calculator"
+    cancel-text=""
     @update:model-value="$emit('update:model-value', $event)"
+    @before-open="resetTimes"
   >
-    <va-time-input label="Your time" v-model="urTime" class="mb-2"> </va-time-input>
-    <va-time-input label="Card time" v-model="cardTime"> </va-time-input>
+    <va-time-input 
+      label="Your time" 
+      v-model="urTime" 
+      class="mb-2"
+      manual-input
+      @update:model-value="onUrTimeUpdate"
+    />
+    <va-time-input 
+      label="Card time" 
+      v-model="cardTime"
+      manual-input
+      @update:model-value="onCardTimeUpdate"
+    />
   </va-modal>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import { addHoursOffset } from '../utils/addHoursOffset'
 
 export default defineComponent({
@@ -22,16 +36,25 @@ export default defineComponent({
     const urTime = ref(new Date());
     const cardTime = ref(addHoursOffset(urTime.value, props.offset));
 
-    watch(urTime, () => {
+    const resetTimes = () => {
+      urTime.value = new Date()
       cardTime.value = addHoursOffset(urTime.value, props.offset)
-    });
-    watch(cardTime, () => {
+    }
+
+    const onUrTimeUpdate = () => {
+      cardTime.value = addHoursOffset(urTime.value, props.offset)
+    };
+    const onCardTimeUpdate = () => {
       urTime.value = addHoursOffset(cardTime.value, -props.offset)
-    });
+    };
 
     return {
       urTime,
       cardTime,
+
+      onUrTimeUpdate,
+      onCardTimeUpdate,
+      resetTimes,
     };
   },
 });

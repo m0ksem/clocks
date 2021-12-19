@@ -2,9 +2,9 @@
   "name": "clocks",
   "version": "0.0.3",
   "scripts": {
-    "dev": "vite",
+    "serve": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "preview": "vite preview"
   },
   "dependencies": {
     "sass": "^1.44.0",

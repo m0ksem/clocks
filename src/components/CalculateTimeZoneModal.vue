@@ -11,12 +11,14 @@
       v-model="urTime" 
       class="mb-2"
       manual-input
+      :ampm="ampm"
       @update:model-value="onUrTimeUpdate"
     />
     <va-time-input 
       label="Card time" 
       v-model="cardTime"
       manual-input
+      :ampm="ampm"
       @update:model-value="onCardTimeUpdate"
     />
   </va-modal>
@@ -30,6 +32,7 @@ export default defineComponent({
   props: {
     modelValue: { type: Boolean, required: true },
     offset: { type: Number, required: true },
+    ampm: { type: Boolean, required: true },
   },
 
   setup(props) {

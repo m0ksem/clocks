@@ -35,7 +35,7 @@
           @click="toShowCalculate=true"
         />
 
-        <CalculateTimeZoneModal v-model="toShowCalculate" :offset="timeZoneOffset"></CalculateTimeZoneModal>
+        <CalculateTimeZoneModal v-model="toShowCalculate" :offset="timeZoneOffset" :ampm="ampm"></CalculateTimeZoneModal>
       </va-card-content>
     </va-hover>
   </va-card>

@@ -58,8 +58,7 @@ export default defineComponent({
     })
 
     const onOk = () => {
-      // TODO: temp fix here and check for formData.timezone !== null
-      if (form.value.validate() && formData.value.timezone) {
+      if (formData.value.timezone) {
         emit('create', formData.value)
         emit('update:modelValue', false)
       }  

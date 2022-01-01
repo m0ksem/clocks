@@ -7,17 +7,18 @@
             class="header d-flex justify--space-between align--center"
             style="flex-wrap: wrap"
           >
-            <h1 class="display-1">{{ currentTime }}</h1>
+            <h1 class="display-1">{{ formatDate(nowDate, preferences.ampm) }}</h1>
 
             <div class="d-flex align--center">
               <va-switch
                 v-model="preferences.ampm"
                 true-inner-label="12h"
                 false-inner-label="24h"
-              ></va-switch>
-              <va-button icon-right="add" @click="doShowAddModal = true"
-                >Add</va-button
-              >
+              />
+
+              <va-button class="mr-1" icon="palette" @click="toggleTheme" />
+                        
+              <va-button icon-right="add" @click="doShowAddModal = true">Add</va-button>
               <AddTimeZoneModal
                 v-model="doShowAddModal"
                 @create="createTimeZone"
@@ -36,7 +37,7 @@
                 :name="timeZone.name"
                 :offset="timeZone.offset * 60"
                 :timezone="timeZone.timezone"
-                :color="colors[index]"
+                :color="clockColors[index]"
                 :ampm="preferences.ampm"
                 @delete="deleteTimeZone(timeZone)"
               />
@@ -49,8 +50,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref, watch } from "vue";
-import { useInterval } from "./hooks/useInterval";
+import { defineComponent, ref} from "vue";
+import { useTheme } from './hooks/useTheme'
+import { useLocalStorage } from "./hooks/useLocalStorage";
+import { useNowDate } from './hooks/useNowDate'
+import { formatDate } from './utils/formatDate'
 import TimeZoneCard from "./components/TimeZoneCard.vue";
 import AddTimeZoneModal from "./components/AddTimeZoneModal.vue";
 
@@ -60,71 +64,31 @@ export default defineComponent({
   components: { TimeZoneCard, AddTimeZoneModal },
 
   setup() {
-    const savedPref = JSON.parse(localStorage.getItem("pref") || "null");
-    const preferences = ref(savedPref || {
-      ampm: false,
-    });
-
-    watch(
-      preferences,
-      (newPref) => {
-        localStorage.setItem("pref", JSON.stringify(newPref));
-      },
-      { deep: true }
-    );
-
-    const colors = [
-      "#4cc9f0",
-      "#ffc6ff",
-      "#06d6a0",
-      "#4ea8de",
-      "#f9c74f",
-      "#bdb2ff",
-      "#ffc6ff",
-    ];
-
-    const formatDate = (date: Date) => {
-      if (preferences.value.ampm == true) {
-        return date.toLocaleTimeString("en-US");
-      } else {
-        return date.toLocaleTimeString("en-GB");
-      }
-    };
-
-    const currentTime = ref(formatDate(new Date()));
-
-    useInterval(() => {
-      currentTime.value = formatDate(new Date());
-    }, 1000);
-
+    const { toggle: toggleTheme, clockColors } = useTheme()
+    const { storage: preferences } = useLocalStorage('pref', { ampm: false })
+    const { storage: timeZones } = useLocalStorage<TimeZone[]>('timezones', [])
+    const { now: nowDate } = useNowDate()
+    
     const doShowAddModal = ref(false);
 
-    const timeZones = ref([] as TimeZone[]);
-    const LOCAL_STORAGE_KEY = "timezones";
     const createTimeZone = (timeZone: TimeZone) => {
       timeZones.value.push(timeZone);
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(timeZones.value));
     };
 
     const deleteTimeZone = (timeZone: TimeZone) => {
       timeZones.value = timeZones.value.filter((t) => t !== timeZone);
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(timeZones.value));
     };
-
-    onBeforeMount(() => {
-      timeZones.value = JSON.parse(
-        localStorage.getItem(LOCAL_STORAGE_KEY) || "[]"
-      );
-    });
 
     return {
       preferences,
-      colors,
-      currentTime,
+      clockColors,
+      nowDate,
       doShowAddModal,
       timeZones,
+      formatDate,
       createTimeZone,
       deleteTimeZone,
+      toggleTheme,
     };
   },
 });
@@ -143,6 +107,7 @@ body {
   align-items: center;
   height: 100vh;
   width: 100wh;
+  background-color: var(--va-background);
 }
 
 .container {

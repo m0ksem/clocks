@@ -3,7 +3,7 @@
     <va-hover class="time-zone-card" #default="{ hover }" stateful>
       <va-card-content>
         <h3 class="display-2">
-          {{ currentTime }}
+          {{ formatDate(nowDateWithOffset) }}
         </h3>
 
         <va-divider />
@@ -43,9 +43,10 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import { useInterval } from "../hooks/useInterval";
 import { stringTimeZoneToNumber } from "../utils/stringTimeZoneToNumber";
 import { addHoursOffset } from '../utils/addHoursOffset'
+import { formatDate } from '../utils/formatDate'
+import { useNowDate } from '../hooks/useNowDate'
 import CalculateTimeZoneModal from "./CalculateTimeZoneModal.vue";
 
 export default defineComponent({
@@ -84,26 +85,18 @@ export default defineComponent({
       return addHoursOffset(new Date(), timeZoneOffset.value)
     };
 
-    const formatDate = (date: Date) => {
-      if (props.ampm == true) {
-        return date.toLocaleTimeString("en-US");
-      } else {
-        return date.toLocaleTimeString("en-GB");
-      }
-    };
+    const { now: nowDate } = useNowDate()
 
-    const currentTime = ref(formatDate(getDateWithOffset()));
-
-    useInterval(() => {
-      currentTime.value = formatDate(getDateWithOffset());
-    }, 1000);
+    const nowDateWithOffset = computed(() => addHoursOffset(nowDate.value, timeZoneOffset.value))
 
     return {
-      currentTime,
+      nowDateWithOffset,
 
       timeZoneOffset,
 
       toShowCalculate,
+
+      formatDate,
     };
   },
 });

@@ -3,7 +3,7 @@
     <va-hover class="time-zone-card" #default="{ hover }" stateful>
       <va-card-content>
         <h3 class="display-2">
-          {{ formatDate(nowDateWithOffset) }}
+          {{ formatDate(nowDateWithOffset, ampm) }}
         </h3>
 
         <va-divider />

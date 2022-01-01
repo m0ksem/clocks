@@ -1,6 +1,6 @@
 <template>
   <va-modal :model-value="modelValue" @ok="onOk" @cancel="onCancel" @before-open="onBeforeOpen" title="Add time zone">
-    <va-form style="max-width: 300px; width: 100vw;" ref="form">
+    <va-form ref="form">
       <va-input 
         v-model="formData.name"
         label="Name" 

@@ -1,6 +1,6 @@
 {
   "name": "clocks",
-  "version": "0.0.4",
+  "version": "0.0.4-patch1",
   "scripts": {
     "serve": "vite",
     "build": "vue-tsc --noEmit && vite build",

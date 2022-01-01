@@ -16,35 +16,59 @@ export const useTheme = () => {
 
   const toDark = () => {
     isDark.value = true
+
+    const cardBackground = '#292928'
+    const background = '#1f201e'
+    const textColor = '#ffffff'
+
     setColors({
-      primary: '#6320EE',
-      secondary: '#202020',
-      background: '#121212',
-      success: '#60a315',
-      info: '#827ef3',
-      danger: '#f00a67',
-      warning: '#febf6d',
-      gray: '#aeaeb1',
-      dark: '#ffffff',
-      white: '#020000',
-      cardColor: '#202020',
+      primary: '#5650cb',
+      secondary: '#592bf6',
+      background: background,
+      success: '#00aa61',
+      info: '#9a9ea1',
+      danger: '#f51500',
+      warning: '#e5cc00',
+      gray: '#5650cb',
+      dark: textColor,
+      white: cardBackground,
+      divider: cardBackground,
+      'card-background': cardBackground,
+      'card-color': textColor,
+      'modal-dialog-background': cardBackground,
+      'dropdown-content-background': background,
+      'dropdown-content-text': textColor,
+      'select-dropdown-background': background,
+      'select-dropdown-text': textColor,
     })
   }
 
   const toWhite = () => {
     isDark.value = false
+
+    const cardBackground = '#fffeff'
+    const background = '#e1e7f2'
+    const textColor = '#010b0b'
+
     setColors({
-      primary: '#2C82E0',
-      secondary: '#cbe4f0',
-      background: '#f4f8fa',
-      success: '#40e583',
-      info: '#2c82e0',
-      danger: '#DE1041',
-      warning: '#FFAC0A',
-      gray: '#202020',
-      dark: '#0a1622',
-      white: '#ffffff',
-      cardColor: '#fcfdff',
+      primary: '#0c2fea',
+      secondary: '#3567ad',
+      background: background,
+      success: '#00aa61',
+      info: '#35a5db',
+      danger: '#f51500',
+      warning: '#e5cc00',
+      gray: '#0c2fea',
+      dark: textColor,
+      white: cardBackground,
+      divider: cardBackground,
+      'card-background': cardBackground,
+      'card-color': textColor,
+      'modal-dialog-background': cardBackground,
+      'dropdown-content-background': background,
+      'dropdown-content-text': textColor,
+      'select-dropdown-background': background,
+      'select-dropdown-text': textColor, 
     })
   }
 
@@ -73,6 +97,8 @@ export const useTheme = () => {
       "#ffc6ff",
     ]
   })
+
+  isDark.value ? toDark() : toWhite()
 
   return {
     isDark,

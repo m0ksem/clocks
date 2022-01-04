@@ -1,5 +1,5 @@
 <template>
-  <va-card :color="color" gradient>
+  <va-card :color="color" gradient @dblclick="doShowCalculateModal=true">
     <va-hover class="time-zone-card" #default="{ hover }" stateful>
       <va-card-content>
         <h3 class="display-2">
@@ -32,6 +32,7 @@
           flat
           v-show="hover"
           icon="schedule"
+          color="info"
           @click="doShowCalculateModal=true"
         />
 

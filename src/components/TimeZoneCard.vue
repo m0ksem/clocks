@@ -32,10 +32,10 @@
           flat
           v-show="hover"
           icon="schedule"
-          @click="toShowCalculate=true"
+          @click="doShowCalculateModal=true"
         />
 
-        <CalculateTimeZoneModal v-model="toShowCalculate" :offset="timeZoneOffset" :ampm="ampm"></CalculateTimeZoneModal>
+        <CalculateTimeZoneModal v-model="doShowCalculateModal" :offset="timeZoneOffset" :ampm="ampm"></CalculateTimeZoneModal>
       </va-card-content>
     </va-hover>
   </va-card>
@@ -73,7 +73,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const toShowCalculate = ref(false);
+    const doShowCalculateModal = ref(false);
 
     const userOffset = new Date().getTimezoneOffset();
 
@@ -94,7 +94,7 @@ export default defineComponent({
 
       timeZoneOffset,
 
-      toShowCalculate,
+      doShowCalculateModal,
 
       formatDate,
     };

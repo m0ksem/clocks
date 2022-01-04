@@ -51,7 +51,7 @@ export const useTheme = () => {
     const textColor = '#010b0b'
 
     setColors({
-      primary: '#0c2fea',
+      primary: '#592bf6',
       secondary: '#3567ad',
       background: background,
       success: '#00aa61',

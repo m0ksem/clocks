@@ -9,3 +9,8 @@
 .va-switch__inner {
   height: 2.25rem;
 }
+
+:root {
+  --va-input-error-background: var(--va-input-color);
+  --va-modal-dialog-box-shadow: 0;
+}

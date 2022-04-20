@@ -58,7 +58,7 @@ export const useTheme = () => {
       info: '#35a5db',
       danger: '#f51500',
       warning: '#e5cc00',
-      gray: '#0c2fea',
+      gray: '#592bf6',
       dark: textColor,
       white: cardBackground,
       divider: cardBackground,

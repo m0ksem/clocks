@@ -14,9 +14,10 @@
                 v-model="preferences.ampm"
                 true-inner-label="12h"
                 false-inner-label="24h"
+                color="primary"
               />
 
-              <va-button class="mr-1" icon="palette" @click="toggleTheme" />
+              <va-button class="mx-2" icon="palette" @click="toggleTheme" />
                         
               <va-button icon-right="add" @click="doShowAddModal = true">Add</va-button>
               <AddTimeZoneModal

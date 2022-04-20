@@ -43,11 +43,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
-import { stringTimeZoneToNumber } from "../utils/stringTimeZoneToNumber";
+import { computed, defineComponent, PropType, ref } from "vue";
 import { addHoursOffset } from '../utils/addHoursOffset'
 import { formatDate } from '../utils/formatDate'
 import { useNowDate } from '../hooks/useNowDate'
+import type { TimeZone } from '@vvo/tzdb'
 import CalculateTimeZoneModal from "./CalculateTimeZoneModal.vue";
 
 export default defineComponent({
@@ -58,10 +58,10 @@ export default defineComponent({
   props: {
     name: {
       type: String,
-      default: "Kyiv",
+      default: "Unknown",
     },
     timezone: {
-      type: Object,
+      type: Object as PropType<TimeZone>,
       required: true,
     },
     color: {
@@ -79,12 +79,8 @@ export default defineComponent({
     const userOffset = new Date().getTimezoneOffset();
 
     const timeZoneOffset = computed(
-      () => stringTimeZoneToNumber(props.timezone.utc) + userOffset
+      () => props.timezone.currentTimeOffsetInMinutes + userOffset
     );
-
-    const getDateWithOffset = () => {
-      return addHoursOffset(new Date(), timeZoneOffset.value)
-    };
 
     const { now: nowDate } = useNowDate()
 

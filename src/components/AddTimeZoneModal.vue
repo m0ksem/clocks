@@ -12,7 +12,7 @@
       />
 
       <va-input
-        v-model="formData.offset"
+        v-model="formData.filterOffset"
         label="filter time zone by offset"
         class="mb-2"
         placeholder="2"
@@ -26,9 +26,10 @@
       <va-select
         v-model="formData.timezone"
         label="Time zone"  
-        text-by="label" 
-        track-by="label"
-        :options="computedTimeZones" 
+        :text-by="textBy" 
+        track-by="name"
+        :options="computedTimeZones"
+        :group-by="(t) => t.name.split('/')[0]"
         searchable
         :rules="[
           (value) => (value != null && value) || 'Required',
@@ -40,8 +41,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue'
-import timezones from 'timezones-list'
-import { stringTimeZoneToNumber } from '../utils/stringTimeZoneToNumber'
+import { getTimeZones, TimeZone } from "@vvo/tzdb";
 
 export default defineComponent({
   props: {
@@ -50,10 +50,11 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const form = ref()
+    const timezones = getTimeZones()
 
     const formData = ref({
       name: '',
-      offset: '',
+      filterOffset: '',
       timezone: null as typeof timezones[0] | null
     })
 
@@ -71,24 +72,29 @@ export default defineComponent({
     const onBeforeOpen = () => {
       formData.value = {
         name: '',
-        offset: '',
+        filterOffset: '',
         timezone: null
       }
     }
 
-    const computedTimeZones = computed(() => {
-      const userOffset = new Date().getTimezoneOffset()
+    const textBy = (timeZone: TimeZone) => {
+      const name = timeZone.name.replace(/_/g, ' ')
+      const time = timeZone.currentTimeFormat.match(/(?:\+|\-)[0-9]{2}:[0-9]{2}/)![0]
 
-      if (!formData.value.offset) { return timezones }
+      return `[${time}] ${name}`
+    }
+
+    const computedTimeZones = computed(() => {
+      if (!formData.value.filterOffset) { return timezones }
 
       return timezones.filter((timeZone) => 
-        stringTimeZoneToNumber(timeZone.utc) + userOffset === Number(formData.value.offset) * 60
+        timeZone.currentTimeOffsetInMinutes === Number(formData.value.filterOffset) * 60
       )
     })
 
     watch(() => formData.value.timezone, (timeZone) => {
       if (!formData.value.name && timeZone) {
-        formData.value.name = timeZone.label
+        formData.value.name = timeZone.name.replace(/_/g, ' ').split('/')[1]
       }
     })
 
@@ -99,6 +105,7 @@ export default defineComponent({
       onOk,
       onCancel,
       onBeforeOpen,
+      textBy,
     }
   }
 })

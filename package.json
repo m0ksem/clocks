@@ -7,9 +7,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vvo/tzdb": "^6.50.0",
     "sass": "^1.44.0",
     "sass-loader": "^10",
-    "timezones-list": "^3.0.1",
     "vue": "^3.2.16",
     "vuestic-ui": "^1.4.0-alpha1"
   },

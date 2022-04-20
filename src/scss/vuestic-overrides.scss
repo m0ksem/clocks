@@ -10,7 +10,8 @@
   height: 2.25rem;
 }
 
-:root {
+body {
   --va-input-error-background: var(--va-input-color);
-  --va-modal-dialog-box-shadow: 0;
+  --va-modal-dialog-box-shadow: 'none';
+  --va-switch-inner-height: var(--va-button-size);
 }

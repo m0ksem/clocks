@@ -28,6 +28,7 @@
           </div>
 
           <va-divider />
+
           <div class="row" style="margin: 0 -0.5rem">
             <div
               v-for="(timeZone, index) in timeZones"

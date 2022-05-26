@@ -1,15 +1,17 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { VuesticPlugin } from 'vuestic-ui'
-import 'vuestic-ui/dist/vuestic-ui.css'
+import { createVuestic } from 'vuestic-ui'
+import 'vuestic-ui/css'
 import './scss/vuestic-overrides.scss'
 
 createApp(App)
-  .use(VuesticPlugin,{
-    components: {
-      VaCard: {
-        color: 'card-background'
-      },
+  .use(createVuestic({
+    config: {
+      components: {
+        VaCard: {
+          color: 'card-background'
+        },
+      }
     }
-  })
+  }))
   .mount('#app')

@@ -4,13 +4,13 @@
       <va-input 
         v-model="formData.name"
         label="Name" 
-        class="mb-4"
+        class="mb-2"
         placeholder="Kyiv"
         :rules="[
           (value) => (value != null && value.length > 0) || 'Required',
         ]"
       />
-
+<!-- 
       <va-input
         v-model="formData.filterOffset"
         label="filter time zone by offset"
@@ -21,7 +21,7 @@
           (value) => !value || !isNaN(value) || 'Should be number',
           (value) => !value || Number(value) <= 24 && Number(value) >= -24 || 'Should in range from -24 to 24'
         ]"
-      />
+      /> -->
 
       <va-select
         v-model="formData.timezone"
@@ -76,6 +76,12 @@ export default defineComponent({
         timezone: null
       }
     }
+
+    watch(() => props.modelValue, (value) => {
+      if (value) {
+        onBeforeOpen()
+      }
+    })
 
     const textBy = (timeZone: TimeZone) => {
       const name = timeZone.name.replace(/_/g, ' ')

@@ -12,6 +12,8 @@
       class="mb-2"
       manual-input
       :ampm="ampm"
+      clearable
+      :clear-value="new Date()"
       @update:model-value="onUrTimeUpdate"
     />
     <va-time-input 

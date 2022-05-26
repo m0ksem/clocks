@@ -1,6 +1,6 @@
 <template>
-  <va-card :color="color" gradient @dblclick="doShowCalculateModal=true">
-    <va-hover class="time-zone-card" #default="{ hover }" stateful>
+  <va-card class="time-zone-card" :color="color" gradient @click="doShowCalculateModal=true" text-color="dark">
+    <va-hover #default="{ hover }" stateful>
       <va-card-content>
         <h3 class="display-2">
           {{ formatDate(nowDateWithOffset, ampm) }}
@@ -106,6 +106,7 @@ export default defineComponent({
 
 .time-zone-card {
   position: relative;
+  cursor: pointer;
   &__delete-button {
     position: absolute;
     right: 16px;

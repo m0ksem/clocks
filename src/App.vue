@@ -45,6 +45,7 @@
                 :color="clockColors[index]"
                 :ampm="preferences.ampm"
                 @delete="deleteTimeZone(timeZone)"
+                :slideValue="sliderValue"
               />
             </div>
           </div>
@@ -72,9 +73,10 @@ export default defineComponent({
     const { toggle: toggleTheme, clockColors } = useTheme()
     const { storage: preferences } = useLocalStorage('pref', { ampm: false })
     const { storage: timeZones } = useLocalStorage<TimeZone[]>('timezones', [])
-    const { now: nowDate } = useNowDate()
+    
     
     const sliderValue = ref(12);
+    const { now: nowDate } = useNowDate(sliderValue);
     const doShowAddModal = ref(false);
 
     const createTimeZone = (timeZone: TimeZone) => {

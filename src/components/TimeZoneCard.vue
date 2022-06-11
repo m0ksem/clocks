@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, PropType, ref, toRef } from "vue";
 import { addHoursOffset } from '../utils/addHoursOffset'
 import { formatDate } from '../utils/formatDate'
 import { useNowDate } from '../hooks/useNowDate'
@@ -60,17 +60,25 @@ export default defineComponent({
       type: String,
       default: "Unknown",
     },
+
     timezone: {
       type: Object as PropType<TimeZone>,
       required: true,
     },
+
     color: {
       type: String,
     },
+
     ampm: {
       type: Boolean,
       default: false,
     },
+
+    slideValue: {
+      type: Number,
+      required: true,
+    }
   },
 
   setup(props) {
@@ -82,7 +90,7 @@ export default defineComponent({
       () => props.timezone.currentTimeOffsetInMinutes + userOffset
     );
 
-    const { now: nowDate } = useNowDate()
+    const { now: nowDate } = useNowDate(toRef(props, 'slideValue'));
 
     const nowDateWithOffset = computed(() => addHoursOffset(nowDate.value, timeZoneOffset.value))
 

@@ -1,15 +1,17 @@
 import { ref, Ref } from "vue";
 import { useInterval } from "./useInterval";
 
-export const useNowDate = (slideDate: Ref<number>) => {
+export const useNowDate = () => {
   const now = ref(new Date());
-
+  let slide: Ref<number> = ref(now.value.getHours());
+  
   useInterval(() => {
     now.value = new Date();
-    now.value.setHours(slideDate.value);
+    now.value.setHours(slide.value);
   }, 1000);
 
   return {
-    now
+    now,
+    slide
   }
 }

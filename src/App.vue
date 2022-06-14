@@ -28,7 +28,7 @@
 
           </div>
 
-          <va-slider v-model="sliderValue" :min="1" :max="24" track-label-visible/>
+          <va-slider v-model="slide" :min="1" :max="24" track-label-visible/>
 
           <va-divider />
 
@@ -45,7 +45,7 @@
                 :color="clockColors[index]"
                 :ampm="preferences.ampm"
                 @delete="deleteTimeZone(timeZone)"
-                :slideValue="sliderValue"
+                :slideValue="slide"
               />
             </div>
           </div>
@@ -75,8 +75,7 @@ export default defineComponent({
     const { storage: timeZones } = useLocalStorage<TimeZone[]>('timezones', [])
     
     
-    const sliderValue = ref(12);
-    const { now: nowDate } = useNowDate(sliderValue);
+    const { now: nowDate, slide } = useNowDate();
     const doShowAddModal = ref(false);
 
     const createTimeZone = (timeZone: TimeZone) => {
@@ -92,7 +91,7 @@ export default defineComponent({
       clockColors,
       nowDate,
       doShowAddModal,
-      sliderValue,
+      slide,
       timeZones,
       formatDate,
       createTimeZone,

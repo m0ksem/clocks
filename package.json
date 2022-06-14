@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@vvo/tzdb": "^6.50.0",
+    "pinia": "^2.0.14",
     "sass": "^1.44.0",
     "sass-loader": "^10",
     "vue": "^3.2.16",

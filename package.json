@@ -1,9 +1,10 @@
 {
   "name": "clocks",
-  "version": "0.0.5-patch2",
+  "version": "0.0.5-patch3",
   "scripts": {
     "serve": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vite build",
+    "tscheck": "vue-tsc --noEmit",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -12,7 +13,7 @@
     "sass": "^1.44.0",
     "sass-loader": "^10",
     "vue": "^3.2.16",
-    "vuestic-ui": "^1.4.0"
+    "vuestic-ui": "^1.4.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.3",

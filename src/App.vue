@@ -23,12 +23,12 @@
               <AddTimeZoneModal
                 v-model="doShowAddModal"
                 @create="createTimeZone"
-              ></AddTimeZoneModal>
+              />
             </div>
 
           </div>
 
-          <va-slider v-model="calculatedTime" :min="1" :max="24" track-label-visible>
+          <va-slider v-model="nowTimeOffset" :min="1" :max="24" track-label-visible>
             <template #append>
               <va-button icon="restart_alt" flat class="ml-2" @click="resetTime"/>
             </template>
@@ -49,7 +49,6 @@
                 :color="clockColors[index]"
                 :ampm="preferences.ampm"
                 @delete="deleteTimeZone(timeZone)"
-                :slideValue="calculatedTime"
               />
             </div>
           </div>
@@ -81,7 +80,7 @@ export default defineComponent({
     const { storage: timeZones } = useLocalStorage<TimeZone[]>('timezones', [])
     
     const store = useStore()
-    let { calculatedTime } = storeToRefs(store)
+    const { nowTimeOffset } = storeToRefs(store)
     const { now: nowDate } = useNowDate();
     const doShowAddModal = ref(false);
 
@@ -94,9 +93,8 @@ export default defineComponent({
     };
 
     const resetTime = () => {
-      const now = ref(new Date());
-
-      calculatedTime.value = now.value.getHours();
+      const now = new Date();
+      nowTimeOffset.value = now.getHours();
     }
 
     return {
@@ -105,7 +103,7 @@ export default defineComponent({
       nowDate,
       doShowAddModal,
       timeZones,
-      calculatedTime,
+      nowTimeOffset,
       formatDate,
       createTimeZone,
       deleteTimeZone,

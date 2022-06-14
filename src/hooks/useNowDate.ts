@@ -7,13 +7,13 @@ export const useNowDate = () => {
   const now = ref(new Date());
 
   const store = useStore()
-  const { calculatedTime } = storeToRefs(store)
+  const { nowTimeOffset } = storeToRefs(store)
 
-  calculatedTime.value = now.value.getHours();
+  nowTimeOffset.value = now.value.getHours();
   
   useInterval(() => {
     now.value = new Date();
-    now.value.setHours(calculatedTime.value);
+    now.value.setHours(nowTimeOffset.value);
   }, 1000);
 
   return {

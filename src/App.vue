@@ -28,7 +28,7 @@
 
           </div>
 
-          <va-slider v-model="slide" :min="1" :max="24" track-label-visible/>
+          <va-slider v-model="calculatedTime" :min="1" :max="24" track-label-visible/>
 
           <va-divider />
 
@@ -45,7 +45,7 @@
                 :color="clockColors[index]"
                 :ampm="preferences.ampm"
                 @delete="deleteTimeZone(timeZone)"
-                :slideValue="slide"
+                :slideValue="calculatedTime"
               />
             </div>
           </div>
@@ -63,6 +63,8 @@ import { useNowDate } from './hooks/useNowDate'
 import { formatDate } from './utils/formatDate'
 import TimeZoneCard from "./components/TimeZoneCard.vue";
 import AddTimeZoneModal from "./components/AddTimeZoneModal.vue";
+import { useStore } from "./store/store";
+import { storeToRefs } from 'pinia'
 
 type TimeZone = { name: string; offset: number; timezone: any };
 
@@ -74,8 +76,9 @@ export default defineComponent({
     const { storage: preferences } = useLocalStorage('pref', { ampm: false })
     const { storage: timeZones } = useLocalStorage<TimeZone[]>('timezones', [])
     
-    
-    const { now: nowDate, slide } = useNowDate();
+    const store = useStore()
+    let { calculatedTime } = storeToRefs(store)
+    const { now: nowDate } = useNowDate();
     const doShowAddModal = ref(false);
 
     const createTimeZone = (timeZone: TimeZone) => {
@@ -91,8 +94,8 @@ export default defineComponent({
       clockColors,
       nowDate,
       doShowAddModal,
-      slide,
       timeZones,
+      calculatedTime,
       formatDate,
       createTimeZone,
       deleteTimeZone,

@@ -23,9 +23,16 @@
               <AddTimeZoneModal
                 v-model="doShowAddModal"
                 @create="createTimeZone"
-              ></AddTimeZoneModal>
+              />
             </div>
+
           </div>
+
+          <va-slider v-model="nowTimeOffset" :min="1" :max="24" track-label-visible>
+            <template #append>
+              <va-button icon="restart_alt" flat class="ml-2" @click="resetTime"/>
+            </template>
+          </va-slider>
 
           <va-divider />
 
@@ -59,6 +66,8 @@ import { useNowDate } from './hooks/useNowDate'
 import { formatDate } from './utils/formatDate'
 import TimeZoneCard from "./components/TimeZoneCard.vue";
 import AddTimeZoneModal from "./components/AddTimeZoneModal.vue";
+import { useStore } from "./store/store";
+import { storeToRefs } from 'pinia'
 
 type TimeZone = { name: string; offset: number; timezone: any };
 
@@ -69,8 +78,10 @@ export default defineComponent({
     const { toggle: toggleTheme, clockColors } = useTheme()
     const { storage: preferences } = useLocalStorage('pref', { ampm: false })
     const { storage: timeZones } = useLocalStorage<TimeZone[]>('timezones', [])
-    const { now: nowDate } = useNowDate()
     
+    const store = useStore()
+    const { nowTimeOffset } = storeToRefs(store)
+    const { now: nowDate } = useNowDate();
     const doShowAddModal = ref(false);
 
     const createTimeZone = (timeZone: TimeZone) => {
@@ -81,16 +92,23 @@ export default defineComponent({
       timeZones.value = timeZones.value.filter((t) => t !== timeZone);
     };
 
+    const resetTime = () => {
+      const now = new Date();
+      nowTimeOffset.value = now.getHours();
+    }
+
     return {
       preferences,
       clockColors,
       nowDate,
       doShowAddModal,
       timeZones,
+      nowTimeOffset,
       formatDate,
       createTimeZone,
       deleteTimeZone,
       toggleTheme,
+      resetTime,
     };
   },
 });
@@ -120,5 +138,9 @@ body {
 
 .flex {
   box-sizing: border-box;
+}
+
+.va-slider {
+  margin: 12px 6px;
 }
 </style>

@@ -60,13 +60,16 @@ export default defineComponent({
       type: String,
       default: "Unknown",
     },
+
     timezone: {
       type: Object as PropType<TimeZone>,
       required: true,
     },
+
     color: {
       type: String,
     },
+
     ampm: {
       type: Boolean,
       default: false,
@@ -82,7 +85,7 @@ export default defineComponent({
       () => props.timezone.currentTimeOffsetInMinutes + userOffset
     );
 
-    const { now: nowDate } = useNowDate()
+    const { now: nowDate } = useNowDate();
 
     const nowDateWithOffset = computed(() => addHoursOffset(nowDate.value, timeZoneOffset.value))
 

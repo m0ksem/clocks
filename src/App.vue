@@ -28,7 +28,11 @@
 
           </div>
 
-          <va-slider v-model="calculatedTime" :min="1" :max="24" track-label-visible/>
+          <va-slider v-model="calculatedTime" :min="1" :max="24" track-label-visible>
+            <template #append>
+              <va-button icon="restart_alt" flat class="ml-2" @click="resetTime"/>
+            </template>
+          </va-slider>
 
           <va-divider />
 
@@ -89,6 +93,12 @@ export default defineComponent({
       timeZones.value = timeZones.value.filter((t) => t !== timeZone);
     };
 
+    const resetTime = () => {
+      const now = ref(new Date());
+
+      calculatedTime.value = now.value.getHours();
+    }
+
     return {
       preferences,
       clockColors,
@@ -100,6 +110,7 @@ export default defineComponent({
       createTimeZone,
       deleteTimeZone,
       toggleTheme,
+      resetTime,
     };
   },
 });

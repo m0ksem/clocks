@@ -3,7 +3,7 @@
   "version": "0.0.5-patch3",
   "scripts": {
     "serve": "vite",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "tscheck": "vue-tsc --noEmit",
     "preview": "vite preview"
   },
@@ -12,8 +12,8 @@
     "pinia": "^2.0.14",
     "sass": "^1.44.0",
     "sass-loader": "^10",
-    "vue": "^3.2.16",
-    "vuestic-ui": "^1.4.1"
+    "vue": "^3.2.37",
+    "vuestic-ui": "1.4.7"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.3",

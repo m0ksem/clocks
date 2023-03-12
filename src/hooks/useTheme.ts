@@ -1,3 +1,4 @@
+import { watch } from 'vue';
 import { useColors } from 'vuestic-ui'
 import { computed, ref } from 'vue'
 import { useLocalStorage } from './useLocalStorage'
@@ -5,77 +6,18 @@ import { useLocalStorage } from './useLocalStorage'
 const isBrowserSetToDarkTheme = () => Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
 
 export const useTheme = () => {
-  const { setColors } = useColors()
+  const { applyPreset, currentPresetName } = useColors()
 
   const { storage } = useLocalStorage('theme', { isDark: isBrowserSetToDarkTheme() })
 
-  const isDark = computed({
-    get() { return storage.value.isDark },
-    set(val: boolean) { storage.value.isDark = val }
+  watch(currentPresetName, () => {
+    storage.value.isDark = currentPresetName.value === 'dark'
   })
 
-  const toDark = () => {
-    isDark.value = true
-
-    const cardBackground = '#292928'
-    const background = '#1f201e'
-    const textColor = '#ffffff'
-
-    setColors({
-      primary: '#5650cb',
-      secondary: '#592bf6',
-      background: background,
-      success: '#00aa61',
-      info: '#9a9ea1',
-      danger: '#f51500',
-      warning: '#e5cc00',
-      gray: '#5650cb',
-      dark: textColor,
-      white: cardBackground,
-      divider: cardBackground,
-      'card-background': cardBackground,
-      'card-color': textColor,
-      'modal-dialog-background': cardBackground,
-      'dropdown-content-background': background,
-      'dropdown-content-text': textColor,
-      'select-dropdown-background': background,
-      'select-dropdown-text': textColor,
-    })
-  }
-
-  const toWhite = () => {
-    isDark.value = false
-
-    const cardBackground = '#fffeff'
-    const background = '#e1e7f2'
-    const textColor = '#010b0b'
-
-    setColors({
-      primary: '#592bf6',
-      secondary: '#3567ad',
-      background: background,
-      success: '#00aa61',
-      info: '#35a5db',
-      danger: '#f51500',
-      warning: '#e5cc00',
-      gray: '#592bf6',
-      dark: textColor,
-      white: cardBackground,
-      divider: cardBackground,
-      'card-background': cardBackground,
-      'card-color': textColor,
-      'modal-dialog-background': cardBackground,
-      'dropdown-content-background': background,
-      'dropdown-content-text': textColor,
-      'select-dropdown-background': background,
-      'select-dropdown-text': textColor, 
-    })
-  }
-
-  const toggle = () => isDark.value ? toWhite() : toDark()
+  const toggle = () => currentPresetName.value === 'dark' ? applyPreset('light') : applyPreset('dark')
 
   const clockColors = computed(() => {
-    if (isDark.value) {
+    if (currentPresetName.value === 'dark') {
       return [
         "#007EA7",
         "#63326E",
@@ -98,13 +40,12 @@ export const useTheme = () => {
     ]
   })
 
-  isDark.value ? toDark() : toWhite()
+  if (storage.value.isDark) {
+    applyPreset('dark')
+  }
 
   return {
-    isDark,
     toggle,
-    toDark,
-    toWhite,
     clockColors,
   }
 }

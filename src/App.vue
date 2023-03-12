@@ -4,12 +4,12 @@
       <va-card>
         <va-card-content>
           <div
-            class="header d-flex justify--space-between align--center"
+            class="header flex justify-between items-center"
             style="flex-wrap: wrap"
           >
-            <h1 class="display-1">{{ formatDate(nowDate, preferences.ampm) }}</h1>
+            <h1 class="va-h1">{{ formatDate(nowDate, preferences.ampm) }}</h1>
 
-            <div class="d-flex align--center">
+            <div class="flex items-center">
               <va-switch
                 v-model="preferences.ampm"
                 true-inner-label="12h"
@@ -28,21 +28,21 @@
 
           </div>
 
-          <va-slider v-model="nowTimeOffset" :min="1" :max="24" track-label-visible>
-            <template #append>
-              <va-button icon="restart_alt" flat class="ml-2" @click="resetTime"/>
-            </template>
-          </va-slider>
+          <div class="flex gap-2 w-full items-center">
+              <va-slider class="flex-grow" v-model="nowTimeOffset" :min="1" :max="24" track-label-visible />
+              <va-button icon="restart_alt" flat @click="resetTime"/>
+          </div>
 
           <va-divider />
 
-          <div class="row" style="margin: 0 -0.5rem">
+          <div class="flex flex-wrap mt-4 -ma-4">
             <div
               v-for="(timeZone, index) in timeZones"
               :key="timeZone.name"
-              class="flex lg4 md6 sm12 xs12 pa-2"
+              class="lg:w-1/3 md:w-1/2 w-full pa-4 box-border"
             >
               <TimeZoneCard
+                clas="w-full"
                 :name="timeZone.name"
                 :offset="timeZone.offset * 60"
                 :timezone="timeZone.timezone"
@@ -119,6 +119,7 @@ body {
   font-family: Source Sans Pro, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
 }
 
 .app {

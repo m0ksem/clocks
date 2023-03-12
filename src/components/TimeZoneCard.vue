@@ -1,37 +1,37 @@
 <template>
-  <va-card class="time-zone-card" :color="color" gradient @click="doShowCalculateModal=true" text-color="dark">
+  <va-card class="time-zone-card" :color="color" gradient @click="doShowCalculateModal=true">
     <va-hover #default="{ hover }" stateful>
       <va-card-content>
-        <h3 class="display-2">
+        <h3 class="va-h2">
           {{ formatDate(nowDateWithOffset, ampm) }}
         </h3>
 
-        <va-divider />
+        <va-divider :style="`--va-divider-border-top-color: ${dividerColor}`"/>
 
         <div class="d-flex align--center justify--space-between">
           <span>
             {{ name }}
           </span>
 
-          <p>
+          <!-- <p>
             <span class="title">Offset {{ timeZoneOffset / 60 }}h</span>
-          </p>
+          </p> -->
         </div>
 
         <va-button
           class="time-zone-card__delete-button"
           v-show="hover"
           icon="cancel"
-          flat
           color="danger"
+          preset="secondary"
           @click="$emit('delete')"
         />
 
         <va-button
           class="time-zone-card__calculate-button"
-          flat
           v-show="hover"
           icon="schedule"
+          preset="secondary"
           color="info"
           @click="doShowCalculateModal=true"
         />
@@ -49,6 +49,7 @@ import { formatDate } from '../utils/formatDate'
 import { useNowDate } from '../hooks/useNowDate'
 import type { TimeZone } from '@vvo/tzdb'
 import CalculateTimeZoneModal from "./CalculateTimeZoneModal.vue";
+import { useColors } from "vuestic-ui";
 
 export default defineComponent({
   components: {
@@ -68,6 +69,7 @@ export default defineComponent({
 
     color: {
       type: String,
+      required: true
     },
 
     ampm: {
@@ -89,8 +91,12 @@ export default defineComponent({
 
     const nowDateWithOffset = computed(() => addHoursOffset(nowDate.value, timeZoneOffset.value))
 
+    const { getTextColor, getColor } = useColors()
+    const dividerColor = computed(() => getColor(getTextColor(props.color)))
+
     return {
       nowDateWithOffset,
+      dividerColor,
 
       timeZoneOffset,
 
@@ -112,7 +118,7 @@ export default defineComponent({
   cursor: pointer;
   &__delete-button {
     position: absolute;
-    right: 16px;
+    right: 8px;
     top: 8px;
   }
   &__calculate-button {

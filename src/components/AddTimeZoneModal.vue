@@ -1,6 +1,6 @@
 <template>
-  <va-modal :model-value="modelValue" @ok="onOk" @cancel="onCancel" @before-open="onBeforeOpen" title="Add time zone">
-    <va-form ref="form">
+  <va-modal :model-value="modelValue" @ok="onOk" @cancel="onCancel" @before-open="onBeforeOpen" title="Add time zone" no-outside-dismiss>
+    <va-form ref="form" class="flex flex-col">
       <va-input 
         v-model="formData.name"
         label="Name" 
@@ -10,18 +10,6 @@
           (value) => (value != null && value.length > 0) || 'Required',
         ]"
       />
-<!-- 
-      <va-input
-        v-model="formData.filterOffset"
-        label="filter time zone by offset"
-        class="mb-2"
-        placeholder="2"
-        mask="numeral"
-        :rules="[
-          (value) => !value || !isNaN(value) || 'Should be number',
-          (value) => !value || Number(value) <= 24 && Number(value) >= -24 || 'Should in range from -24 to 24'
-        ]"
-      /> -->
 
       <va-select
         v-model="formData.timezone"
@@ -34,6 +22,8 @@
         :rules="[
           (value) => (value != null && value) || 'Required',
         ]"
+        prevent-overflow
+        @click.stop
       />
     </va-form>
   </va-modal>
@@ -118,7 +108,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.va-dropdown__content-wrapper {
+.va-dropdown__content {
   z-index: 9999999 !important;
 }
 </style>

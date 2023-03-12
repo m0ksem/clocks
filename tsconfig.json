@@ -12,5 +12,4 @@
     "lib": ["esnext", "dom"],
     "noImplicitAny": false
   },
-  "include": ["node_modules/vuestic-ui"]
 }

@@ -128,7 +128,6 @@ body {
   align-items: center;
   height: 100vh;
   width: 100wh;
-  background-color: var(--va-background);
 }
 
 .container {

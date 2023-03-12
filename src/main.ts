@@ -10,7 +10,26 @@ import 'uno.css'
 createApp(App)
   .use(createVuestic({
     config: {
-
+      colors: {
+        presets: {
+          light: {
+            primary: '#253fae',
+            secondary: '#356bd4',
+            info: '#40a6f1',
+            success: '#1da563',
+            warning: '#e2cc1d',
+            danger: '#f0210e',
+            backgroundPrimary: '#dbe9fc'
+            // backgroundPrimary: '#f0f'
+          },
+          dark: {
+            backgroundPrimary: '#121213',
+            backgroundSecondary: '#1a1a1c',
+            backgroundElement: '#262629',
+            primary: '#2b54fa'
+          }
+        }
+      }
     }
   }))
   .use(createPinia())

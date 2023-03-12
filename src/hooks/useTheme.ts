@@ -42,6 +42,8 @@ export const useTheme = () => {
 
   if (storage.value.isDark) {
     applyPreset('dark')
+  } else {
+    applyPreset('light')
   }
 
   return {

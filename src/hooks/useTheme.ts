@@ -49,5 +49,6 @@ export const useTheme = () => {
   return {
     toggle,
     clockColors,
+    currentPresetName,
   }
 }

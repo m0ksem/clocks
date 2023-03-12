@@ -2,7 +2,7 @@
   <va-modal
     :model-value="modelValue"
     title="Time calculator"
-    cancel-text=""
+    cancel-text="Close"
     @update:model-value="$emit('update:model-value', $event)"
     @before-open="resetTimes"
     no-outside-dismiss

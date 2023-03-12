@@ -14,7 +14,6 @@ createApp(App)
         presets: {
           light: {
             primary: '#253fae',
-            secondary: '#356bd4',
             info: '#40a6f1',
             success: '#1da563',
             warning: '#e2cc1d',

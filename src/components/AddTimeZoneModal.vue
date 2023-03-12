@@ -74,8 +74,12 @@ export default defineComponent({
     })
 
     const textBy = (timeZone: TimeZone) => {
-      const name = timeZone.name.replace(/_/g, ' ')
+      let name = timeZone.name.replace(/_/g, ' ')
       const time = timeZone.currentTimeFormat.match(/(?:\+|\-)[0-9]{2}:[0-9]{2}/)![0]
+
+      if (name.includes('Kiev')) {
+        name = name.replace('Kiev', 'Kyiv 🇺🇦')
+      }
 
       return `[${time}] ${name}`
     }
